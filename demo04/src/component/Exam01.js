@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Modal } from "bootstrap";
-import {MdCancel} from "react-icons/md";
-
+import { MdCancel } from "react-icons/md";
+import { AiOutlinePlus, AiFillEdit } from "react-icons/ai";
 const Exam01 = () => {
 
 
@@ -36,12 +36,21 @@ const Exam01 = () => {
 
 
     //입력창
+    // const dataChange = e => {
+    //     const newData = {
+    //         ...data,
+    //         [e.target.name]: e.target.value
+    //     }
+    //     setData(newData);0
+ 
+
+
+
+    // };
     const dataChange = e => {
-        const newData = {
-            ...data,
-            [e.target.name]: e.target.value
-        }
-        setData(newData);
+
+        setData({...data,
+            [e.target.name] : e.target.value})
 
     };
     //수정버튼누르면 true로
@@ -125,37 +134,37 @@ const Exam01 = () => {
 
     //일정 추가
 
-    const addTodo = e =>{
+    const addTodo = e => {
 
-        const todoNo = todoList.length==0? 1: todoList[todoList.length-1].no+1;
+        if(data.title.length===0|| data.type.length===0) return;
+
+        const todoNo = todoList.length == 0 ? 1 : todoList[todoList.length - 1].no + 1;
 
         //일정 추가
 
-        const newTodoList=[
+        setTodoList([
             ...todoList,
             {
                 ...data,
-                edit:false,
-                no : todoNo
+                edit: false,
+                no: todoNo
             }
-        ];
-        setTodoList(newTodoList);
+        ]);
 
 
-        const newBackup = [
+        setBackup([
             ...backup,
             {
                 ...data,
-                edit:false,
+                edit: false,
                 no: todoNo
             }
-        ]
-        setBackup(newBackup);
+        ]);
 
 
         setData({
-            title:"",
-            type:"",
+            title: "",
+            type: "",
         })
 
         closeModal();
@@ -175,12 +184,16 @@ const Exam01 = () => {
 
 
     //삭제
-    const deleteTodo = (target) =>{
-        const newTodoList = todoList.filter(todo=> todo.no !==target.no);
-        setTodoList(newTodoList);
+    const deleteTodo = (target) => {
 
-        const newBackup = todoList.filter(todo=> todo.no !==target.no);
+        
+        
+        const newTodoList = todoList.filter(todo => todo.no !== target.no);
+        setTodoList(newTodoList);
+        
+        const newBackup = todoList.filter(todo => todo.no !== target.no);
         setBackup(newBackup)
+        
     };
 
 
@@ -195,16 +208,14 @@ const Exam01 = () => {
 
             <div className="container-fluid">
                 <div className="row mt-4">
-                    <div className="col-10 offset-1">
+                                <div className="col-10 offset-1">
 
 
 
 
                         <div className="text-end">
-                       
-                            <button type="button" onClick={openModal} class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                            <MdCancel className="text-danger" size="40" color="#555"/>
-                            </button>
+
+                                <AiOutlinePlus  onClick={openModal}  size="40" color="#555" />                      
                         </div>
                         <table className="table table-bordered">
                             <thead>
@@ -220,10 +231,18 @@ const Exam01 = () => {
 
 
                                     todo.edit ? (
-                                        <tr className="text-center">
+                                        <tr className="text-center" key={todo.no}>
                                             <td>{todo.no}</td>
                                             <td><input type="text" name="title" value={todo.title} onChange={e => changeTodo(todo, e)} placeholder={todo.title} /></td>
-                                            <td><input type="text" name="type" value={todo.type} onChange={e => changeTodo(todo, e)} placeholder={todo.type} /></td>
+                                            <td>   <select name="type" value={todo.type} onChange={e => changeTodo(todo, e)} className="form-select">
+                                                    <option value="">----선택----</option>
+                                                    <option>일상</option>
+                                                    <option>약속</option>
+                                                    <option>취미</option>
+                                                    <option>공부</option>
+
+
+                                                </select></td>
                                             <td><button onClick={e => saveTodo(todo)} className="btn btn-outline-primary me-1">완료</button>
                                                 <button onClick={e => cancelTodo(todo)} className="btn btn-outline-primary">취소</button></td>
                                         </tr>
@@ -232,8 +251,8 @@ const Exam01 = () => {
                                             <td>{todo.no}</td>
                                             <td>{todo.title}</td>
                                             <td>{todo.type}</td>
-                                            <td><button className="btn btn-outline-primary me-2" onClick={e => changeStatus(todo)}>수정</button>
-                                            <button className="btn btn-outline-primary" onClick={e => deleteTodo(todo)}><MdCancel className="text-danger" size="20" color="#555"/></button>
+                                            <td><AiFillEdit className="" onClick={e => changeStatus(todo) } size="30" color="#555"/>
+                                                <MdCancel onClick={e => deleteTodo(todo)} className="text-danger" size="30" color="#555" />
                                             </td>
                                         </tr>
                                     )
@@ -251,7 +270,7 @@ const Exam01 = () => {
 
 
 
-                        <div class="modal fade"  ref={bsModal} id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" ref={bsModal} id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -268,7 +287,17 @@ const Exam01 = () => {
                                         <div className="row mt-4">
                                             <div className="col">
                                                 <label className="form-label">type</label>
-                                                <input type="text" name="type" value={data.type} onChange={dataChange} className="form-control" />
+
+                                                <select name="type" value={data.type} onChange={dataChange} className="form-select">
+                                                    <option value="">----선택----</option>
+                                                    <option>일상</option>
+                                                    <option>약속</option>
+                                                    <option>취미</option>
+                                                    <option>공부</option>
+
+
+                                                </select>
+
                                             </div>
                                         </div>
 
