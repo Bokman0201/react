@@ -8,7 +8,6 @@ const Pocketmon = (props) => {
         axios({
             url: "http://localhost:8080/pocketmon/",
             method: "get"
-
         })
             .then(response => {
                 console.log(response);
