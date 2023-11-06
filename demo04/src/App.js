@@ -10,6 +10,7 @@ function App() {
       <hr/>
       <Exam01/>
       <hr/>
+      <App></App>
     
     </>
   );
