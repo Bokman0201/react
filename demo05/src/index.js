@@ -4,6 +4,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootswatch/dist/litera/bootstrap.min.css'
+import "bootstrap";
 import {BrowserRouter, HashRouter} from "react-router-dom";//reactapp 을 여러페이지로 분할하여 사용
 //hash라우터는 주소에 hash(#)가 포함된다
 //BrowseRouter는 주소에 Hash(#)가 생기지 않는다 - 서버사이드 랜더링
