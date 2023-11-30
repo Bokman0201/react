@@ -13,7 +13,7 @@ const Exam05 = () => {
     },[java,db,spring]);
 
     useEffect(()=>{
-        setAvg(Math.floor(total/3));
+        setAvg(Math.floor(total/3) );
     },[total]);
 
 
