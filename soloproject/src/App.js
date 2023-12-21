@@ -5,7 +5,7 @@ import Home from './components/home';
 import MemberJoin from './components/member/memberJoin';
 import { useEffect, useRef, useState } from 'react';
 import Draggable from "react-draggable";
-import { Modal } from 'react-bootstrap';
+import { Container, Modal, Nav, NavDropdown, Navbar } from 'react-bootstrap';
 import { IoChatbubbles } from "react-icons/io5";
 import SockJS from 'sockjs-client';
 import axios from 'axios';
@@ -15,6 +15,8 @@ import axios from 'axios';
 function App() {
   const navigate = useNavigate();
   const dragRef = useRef < HTMLDivElement > (null);
+  const user = sessionStorage.getItem('userId');
+  const level = sessionStorage.getItem("userLevel")
 
   useEffect(() => {
     navigate('/home');  // Corrected usage
@@ -23,7 +25,7 @@ function App() {
   const [message, setMessage] = useState("");
 
   const [messageList, setMessageList] = useState([]);
-  const [roomNo,setRoomNo] = useState('0');
+  const [roomNo, setRoomNo] = useState('0');
 
   //웹소켓
   const [webSocket, setWebsocket] = useState();
@@ -55,7 +57,7 @@ function App() {
     socket.onmessage = (event) => {
       console.log("전송")
       const message = JSON.parse(event.data);
-      console.log("메세지",message);
+      console.log("메세지", message);
       setMessageList(prevMessageList => [...prevMessageList, message]);
     };
 
@@ -67,17 +69,15 @@ function App() {
     return () => {
       socket.close();
     };
-  }, []);
+  }, [user]);
 
 
   const messageChange = (e) => {
     setMessage(e.target.value)
 
-    console.log(e.target.value);
-    console.log(messageList);
 
   }
-  const enterRoom=(e)=>{
+  const enterRoom = (e) => {
     const data = {
       type: 'enterRoom',
       chatRoomNo: `${e.target.value}`,
@@ -87,7 +87,7 @@ function App() {
     webSocket.send(JSON.stringify(data));
 
     setRoomNo(e.target.value);
-    
+
     setMessageList([]);
 
   };
@@ -196,8 +196,7 @@ function App() {
     }
   };
 
-  const user = sessionStorage.getItem('userId');
-  const level = sessionStorage.getItem("userLevel")
+
 
   const userId = () => {
   }
@@ -217,6 +216,29 @@ function App() {
   }, [user])
   return (
     <>
+      <Navbar expand="lg" className="bg-body-tertiary">
+      <Container>
+        <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#link">Link</Nav.Link>
+            <NavDropdown title="Dropdown" id="basic-nav-dropdown" className=''>
+              <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.2">
+                Another action
+              </NavDropdown.Item>
+              <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+              <NavDropdown.Divider />
+              <NavDropdown.Item href="#action/3.4">
+                Separated link
+              </NavDropdown.Item >
+            </NavDropdown>
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+    </Navbar>
 
 
       <div className='container'>
@@ -275,19 +297,26 @@ function App() {
             <div className='col-6'>
               <div style={{ border: '1px solid #218C74', padding: '15px', minHeight: '600px', boxShadow: '0 4px 8px rgba(0, 0, 0, 0.7)' }}>
                 {messageList.map((message, index) => (
-                  // user의 id와 메시지의 id가 같지 않으면 렌더링
-                  user == message.memberEmail && (
-                    <div key={index}>
-                      {message.memberEmail}:{message.content}
-                    </div>
-                  )
+                  <div key={index}>
+                    {message.memberEmail === user ? (
+                      // 보낸 메시지
+                      <div style={{ color: 'blue' }}>
+                        {message.memberEmail}:{message.content}
+                      </div>
+                    ) : (
+                      // 받은 메시지
+                      <div style={{ color: 'green' }}>
+                        {message.memberEmail}:{message.content}
+                      </div>
+                    )}
+                  </div>
                 ))}
               </div>
-            <input type="text"
-              value={message}
-              onChange={messageChange}
-              className="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" />
-            <button className="btn btn-outline-primary" type="button" id="button-addon2" onClick={sendMessage}>Send</button>
+              <input type="text"
+                value={message}
+                onChange={messageChange}
+                className="form-control" aria-label="Recipient's username" aria-describedby="button-addon2" />
+              <button className="btn btn-outline-primary" type="button" id="button-addon2" onClick={sendMessage}>Send</button>
             </div>
 
           </div>

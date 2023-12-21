@@ -1,0 +1,29 @@
+
+.search-container {
+    position: relative;
+    width: 300px; /* 원하는 너비로 조절하세요 */
+  }
+
+  
+  .search-results {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-top: none;
+    border-radius: 0 0 4px 4px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    z-index: 1;
+  }
+  
+  .search-results li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .search-results li:hover {
+    background-color: #f2f2f2;
+  }

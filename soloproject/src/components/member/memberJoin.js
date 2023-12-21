@@ -129,36 +129,36 @@ const MemberJoin = () => {
                             ${valid.memberName === true ? 'is-valid' : ''}
                             ${valid.memberName === false ? 'is-invalid' : ''}
                             `} id="floatingInput" placeholder="name" name='memberName' value={userInfo.memberName} onChange={userInfoChange} onBlur={isVaild} />
-                            <label for="floatingInput">name</label>
+                            <label htmlFor="floatingInput">name</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input type="email" className={`form-control 
                             ${valid.memberEmail===true&&valid.overlapEmail === false ? 'is-valid' : ''}
                             ${valid.memberEmail===false||valid.overlapEmail === true ? 'is-invalid' : ''}`}
-                                id="floatingInput" placeholder="name@example.com" name='memberEmail' value={userInfo.memberEmail} onChange={userInfoChange} onBlur={isVaild} />
-                            <label for="floatingInput">Email address</label>
+                                id="floatingInput2" placeholder="name@example.com" name='memberEmail' value={userInfo.memberEmail} onChange={userInfoChange} onBlur={isVaild} />
+                            <label htmlFor="floatingInput2">Email address</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input type="password" className={`form-control 
                             ${valid.memberPw === true ? 'is-valid' : ''}
                             ${valid.memberPw === false ? 'is-invalid' : ''}
-                            `} id="floatingPassword" placeholder="Password" name='memberPw' autocomplete="off" value={userInfo.memberPw} onChange={userInfoChange} onBlur={isVaild} />
-                            <label for="floatingPassword">Password</label>
+                            `} id="floatingPassword" placeholder="Password" name='memberPw' value={userInfo.memberPw} onChange={userInfoChange} onBlur={isVaild} />
+                            <label htmlFor="floatingPassword">Password</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input type="date" className={`form-control 
                             ${valid.memberBirth === true ? 'is-valid' : ''}
                             ${valid.memberBirth === false ? 'is-invalid' : ''}
-                            `} id="floatingDate" autocomplete="off" name='memberBirth' value={userInfo.memberBirth} onChange={userInfoChange} onBlur={isVaild} />
-                            <label for="floatingDate">생년월일</label>
+                            `} id="floatingDate" name='memberBirth' value={userInfo.memberBirth} onChange={userInfoChange} onBlur={isVaild} />
+                            <label htmlFor="floatingDate">생년월일</label>
                         </div>
                         <div className="form-floating mb-3">
                             <input type="tel" className={`form-control
                              ${valid.memberConnect === true ? 'is-valid' : ''}
                              ${valid.memberConnect === false ? 'is-invalid' : ''}
-                             `} id="floatingTel" autocomplete="off" name='memberConnect' pattern="\d{3}-\d{4}-\d{4}"
+                             `} id="floatingTel" name='memberConnect' pattern="\d{3}-\d{4}-\d{4}"
                                 required onChange={e => { userInfoChange(e); connectFormat(e); }} value={userInfo.memberConnect} onBlur={isVaild} />
-                            <label for="floatingTel">전화번호</label>
+                            <label htmlFor="floatingTel">전화번호</label>
                         </div>
 
                         <div>
